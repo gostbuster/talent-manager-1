@@ -33,6 +33,8 @@ public class WatsonUserModeller
 	private String profile_api;
 	private String visual_api;
 	
+	private Executor executor;
+	
         public WatsonUserModeller()
         {
                 //TODO read env VCAP_SERVICES and parse it into JSON
