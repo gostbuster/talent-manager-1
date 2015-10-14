@@ -3,7 +3,7 @@ declared-services:
   Cloudant NoSQL DB-p8:
     label: cloudantNoSQLDB
     plan: Shared
-  Personality Insights-zj:
+  Personality Insights-p4:
     label: personality_insights
     plan: standard
 applications:
@@ -16,4 +16,4 @@ applications:
   memory: 512M
   services:
     - Cloudant NoSQL DB-p8
-    - Personality Insights-zj
+    - Personality Insights-p4
