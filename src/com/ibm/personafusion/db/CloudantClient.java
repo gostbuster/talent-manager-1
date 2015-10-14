@@ -36,17 +36,27 @@ public class CloudantClient
 	private String password;
 	
         public CloudantClient()
-        {
-                this.httpClient = null;
-
-                //TODO read env VCAP_SERVICES and parse it into JSON
-                this.port = Config.CLOUDANT_PORT;
-                this.host = "";
-                this.username = "";
-                this.password = "";
-                this.name = Config.CLOUDANT_NAME;
-                this.dbc = this.createDBConnector();
-        }
+		{
+		 this.httpClient = null;
+		 try {
+		 String VCAP_SERVICES = System.getenv("VCAP_SERVICES");
+		 JSONObject vcap;
+		 vcap = (JSONObject) JSONObject.parse(VCAP_SERVICES);
+		
+		 cloudant = (JSONArray) vcap.get("cloudantNoSQLDB");
+		 cloudantInstance = (JSONObject) cloudant.get(0);
+		 cloudantCredentials = (JSONObject)
+		 cloudantInstance.get("credentials");
+		 } catch (IOException e) {
+		 e.printStackTrace();
+		 }
+		 this.port = Config.CLOUDANT_PORT;
+		 this.host = (String) cloudantCredentials.get("host");
+		 this.username = (String) cloudantCredentials.get("username");
+		 this.password = (String) cloudantCredentials.get("password");
+		 this.name = Config.CLOUDANT_NAME;
+		 this.dbc = this.createDBConnector();
+		 }
 	
 	/** Put a Person into Cloudant using person.name as the unique id.
 	 *  Stored as :
